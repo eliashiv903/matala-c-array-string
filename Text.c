@@ -17,7 +17,7 @@ void findLine(char  text[],char  word[]){
         }
         if(sumEquals==lengthWord)apear=1;
         if(text[i]=='\n'){
-            if(apear==1)	sysoWordAndLine(startLine, i-1, text);
+            if(apear==1)   sysoWordAndLine(startLine, i-1, text);
             startLine=i+1;
             apear=0;
         }
@@ -36,18 +36,29 @@ void words (char  text[],char  word[]){
     int lengthText = strlen( text );
     int lengthWord = strlen( word );
     for (int i = 0; i < lengthText; ++i) {
+        int sumCarcter=0;
+        if(i-1!=-1&&text[i-1]!=' ') sumCarcter=-10;
+        for (int j=i, k=0; j < i+lengthWord &&j<lengthText&&text[j]!=' ' ; ++j) {
+            if (text[j] == word[k]) {
+                sumCarcter++;
+                k++;
+            }
+            if(i+lengthWord!=lengthText&&text[i+lengthWord]!=' ') sumCarcter=0;
+        }
         int sumEquals=0;
         int j = i;
-        sumCarcter=0;
-        if(j-1!=-1&&text[j-1]!='\t')sumCarcter++;
-        for (int k=0; j <= i+lengthWord &&j<lengthText&&text[j]!=' ' ; ++j) {
+        for (int k=0; j <= i+lengthWord+1 &&j<lengthText&&text[j]!=' ' ; ++j) {
             if(text[j]==word[k]){
                 sumEquals++;
                 k++;
             }
+
+            if(i+lengthWord+1!=lengthText&&text[i+lengthWord+1]!=' ')sumEquals=0;
         }
-        if(j==lengthText||text[j]!='\t')sumCarcter++;
-        if(sumCarcter!=2) sumEquals=-10;
-        if(sumEquals>=lengthWord)	sysoWordAndLine(i, i+lengthWord, text);
+
+        if(text[i+lengthWord]>='a'&&text[i+lengthWord]<='Z')sumEquals=-10;
+        if(sumEquals>=lengthWord)  sysoWordAndLine(i, i+lengthWord, text);
+        else  if( sumCarcter==lengthWord)  sysoWordAndLine(i, i+lengthWord-1, text);
     }
+
 }
